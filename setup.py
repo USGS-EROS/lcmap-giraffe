@@ -32,6 +32,7 @@ setup(name='lcmap-giraffe',
       extras_require={
           'test': ['pytest',
                    'pytest-cov',
+                   'vcrpy',
                   ],
           'doc': [],
           'dev': [],

@@ -1,0 +1,59 @@
+interactions:
+- request:
+    body: jsonRequest=%7B%22username%22%3A+%22guest%22%2C+%22password%22%3A+%22admin1234%22%7D
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['93']
+      Content-Type: [application/x-www-form-urlencoded]
+      User-Agent: [python-requests/2.18.4]
+    method: POST
+    uri: https://earthexplorer.usgs.gov/inventory/json/v/1.4.1/login
+  response:
+    body: {string: '{"errorCode":null,"error":"","data":"7023bb0bc400470a8fc9c16bce427199","api_version":"1.4.1","access_level":"approved","user_context":"guest","user_auth":"guest","catalog_id":"default","executionTime":0.47794103622437}'}
+    headers:
+      Cache-Control: ['no-store, no-cache, must-revalidate, post-check=0, pre-check=0']
+      Connection: [Keep-Alive]
+      Content-Length: ['228']
+      Content-Type: [application/json]
+      Date: ['Sun, 11 Feb 2018 23:08:09 GMT']
+      Expires: ['Thu, 19 Nov 1981 08:52:00 GMT']
+      Keep-Alive: ['timeout=15, max=98']
+      Pragma: [no-cache]
+      Server: [Apache]
+      Set-Cookie: [PHPSESSID=0jnij486op1gf2gpuq3lvkvag3; path=/, PHPSESSID=771midj14tktgod0h71sofgjj2;
+          path=/]
+      Strict-Transport-Security: [max-age=31536000; includeSubDomains]
+      X-Frame-Options: [SAMEORIGIN]
+    status: {code: 200, message: OK}
+- request:
+    body: jsonRequest=%7B%22apiKey%22%3A+%227023bb0bc400470a8fc9c16bce427199%22%2C+%22datasetName%22%3A+%22ARD_TILE%22%2C+%22sortOrder%22%3A+%22ASC%22%2C+%22startingNumber%22%3A+1%2C+%22maxResults%22%3A+1%7D
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['197']
+      Content-Type: [application/x-www-form-urlencoded]
+      User-Agent: [python-requests/2.18.4]
+    method: POST
+    uri: https://earthexplorer.usgs.gov/inventory/json/v/1.4.1/search
+  response:
+    body: {string: '{"errorCode":null,"error":"","data":{"numberReturned":1,"totalHits":1411045,"firstRecord":1,"lastRecord":1,"nextRecord":2,"results":[{"acquisitionDate":"1982-11-11","startTime":"1982-11-11","endTime":"1982-11-11","spatialFootprint":{"type":"Polygon","coordinates":[[[-75.2445098115,44.155845132],[-72.9560718946,44.155845132],[-72.9560718946,45.7758842776],[-75.2445098115,45.7758842776],[-75.2445098115,44.155845132]]]},"sceneBounds":"-75.2445098115,44.155845132,-72.9560718946,45.7758842776","browseUrl":"https:\/\/earthexplorer.usgs.gov\/browse\/tm\/ARD_Tile\/1982\/CU\/028\/004\/LT04_CU_028004_19821111_C01_V01.jpg","dataAccessUrl":"https:\/\/earthexplorer.usgs.gov\/order\/process?dataset_name=ARD_TILE&ordered=LT04_CU_028004_19821111_C01_V01&node=INVSVC","downloadUrl":"https:\/\/earthexplorer.usgs.gov\/download\/external\/options\/ARD_TILE\/LT04_CU_028004_19821111_C01_V01\/INVSVC\/","entityId":"LT04_CU_028004_19821111_C01_V01","displayId":"LT04_CU_028004_19821111_20170912_C01_V01","metadataUrl":"https:\/\/earthexplorer.usgs.gov\/metadata\/xml\/14320\/LT04_CU_028004_19821111_C01_V01\/","fgdcMetadataUrl":"https:\/\/earthexplorer.usgs.gov\/fgdc\/14320\/LT04_CU_028004_19821111_C01_V01\/save_xml","modifiedDate":"2017-09-12T15:14:35","orderUrl":"https:\/\/earthexplorer.usgs.gov\/order\/process?dataset_name=ARD_TILE&ordered=LT04_CU_028004_19821111_C01_V01&node=INVSVC","bulkOrdered":false,"ordered":false,"summary":"Entity
+        ID: LT04_CU_028004_19821111_20170912_C01_V01, Acquisition Date: 11-NOV-82"}]},"api_version":"1.4.1","access_level":"approved","user_context":"guest","user_auth":"guest","catalog_id":"EE","executionTime":9.4572479724884}'}
+    headers:
+      Cache-Control: ['no-store, no-cache, must-revalidate, post-check=0, pre-check=0']
+      Connection: [Keep-Alive]
+      Content-Length: ['1663']
+      Content-Type: [application/json]
+      Date: ['Sun, 11 Feb 2018 23:08:10 GMT']
+      Expires: ['Thu, 19 Nov 1981 08:52:00 GMT']
+      Keep-Alive: ['timeout=15, max=97']
+      Pragma: [no-cache]
+      Server: [Apache]
+      Set-Cookie: [PHPSESSID=ggue3324hcq7h6gb9hndfh5oe6; path=/, PHPSESSID=62jc71pjcdod73pmb26bk5art7;
+          path=/]
+      Strict-Transport-Security: [max-age=31536000; includeSubDomains]
+      X-Frame-Options: [SAMEORIGIN]
+    status: {code: 200, message: OK}
+version: 1
