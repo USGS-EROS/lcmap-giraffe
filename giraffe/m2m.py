@@ -17,13 +17,14 @@ def login(username='username', password='password'):
                 {'username': username, 'password': password})
 
 
-def search(token, dataset='ARD_TILE', start=0, limit=5e4):
+def search(token, dataset='ARD_TILE', start=1, limit=5e4):
     return _api('search',
-                {'apiKey': token, 'datasetName': dataset,
-                 'maxResults': limit, 'startingNumber': start})
+                {'apiKey': token, 'datasetName': dataset, "sortOrder": "ASC",
+                 'startingNumber': start, 'maxResults': limit})
 
 
 def psearch(token, dataset='ARD_TILE', chunk=5e3, limit=5e4):
+    limit = limit or search(token, dataset, limit=1).get('totalHits')
     return reduce(add,
-                  [search(token, dataset, start=i, limit=chunk).get('results')
+                  [search(token, dataset, start=i+1, limit=chunk).get('results')
                    for i in range(0, limit, chunk)])
