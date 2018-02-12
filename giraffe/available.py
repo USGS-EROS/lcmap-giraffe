@@ -26,5 +26,5 @@ def push(username, password, host, index, chunk=5e3, limit=None):
                         updates(username, password, chunk, limit, keep_keys))))
 
 
-def tiles(host, index, tileid='029005'):
-    return docstore.query(host, index, tileid=tileid)
+def tiles(host, index, **kwargs):
+    return map(f.unpack, docstore.query(host, index, **kwargs)['hits']['hits'])

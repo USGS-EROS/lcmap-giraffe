@@ -31,5 +31,4 @@ def index(host, index, data):
 
 
 def query(host, index, **kwargs):
-    return Elasticsearch(host=host).search(index=index,
-                                           body={"query": {"match": kwargs}})
+    return Elasticsearch(host=host).search(index=index, body={"query": kwargs})
