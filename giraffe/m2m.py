@@ -25,6 +25,7 @@ def search(token, dataset='ARD_TILE', start=1, limit=5e4):
 
 def psearch(token, dataset='ARD_TILE', chunk=5e3, limit=5e4):
     limit = limit or search(token, dataset, limit=1).get('totalHits')
+    chunk = min(map(int, [limit, chunk]))
     return reduce(add,
                   [search(token, dataset, start=i+1, limit=chunk).get('results')
                    for i in range(0, limit, chunk)])
