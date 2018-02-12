@@ -8,10 +8,10 @@ from giraffe import funcs
 }
 
 def test_clean():
-    assert(set(funcs.clean({'acquisitionDate': '1982-11-11',
+    assert(set(funcs.clean({'acquisitionDate': 'acquisition_date', 'displayId': '_id'},
+                           {'acquisitionDate': '1982-11-11',
                             'displayId': 'LT04_CU_028004_19821111_20170912_C01_V01',
-                            'other': 'stuff'},
-        {'acquisitionDate': 'acquisition_date', 'displayId': '_id'}))
+                            'other': 'stuff'}))
         == {'_id', 'acquisition_date'})
 
 

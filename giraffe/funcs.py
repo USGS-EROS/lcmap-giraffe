@@ -1,10 +1,18 @@
 """ Generalized, reusable functions """
 
 import datetime
+from functools import singledispatch
 
 
-def clean(item, keep):
+@singledispatch
+def clean(keep, item):
     return {n: item.pop(o) for o,n in keep.items()}
+
+
+@clean.register(tuple)
+@clean.register(list)
+def _(keep, item):
+    return {n: item[n] for n in keep}
 
 
 def parse_date(item, strptimes):
@@ -18,5 +26,5 @@ def timestamp(series):
 
 
 def unpack(result):
-    return clean(dict(result, **result['_source']),
-                 {k:k for k in list(result['_source'].keys()) + ['_id']})
+    return clean(list(result['_source'].keys()) + ['_id'],
+                 dict(result, **result['_source']))
