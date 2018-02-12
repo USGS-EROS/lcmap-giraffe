@@ -24,3 +24,7 @@ def push(username, password, host, index, chunk=5e3, limit=None):
     docstore.index(host, index,
                    f.timestamp(map(partial(f.parse_date, strptimes=strptimes),
                         updates(username, password, chunk, limit, keep_keys))))
+
+
+def tiles(host, index, tileid='029005'):
+    return docstore.query(host, index, tileid=tileid)
