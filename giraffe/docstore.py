@@ -28,3 +28,8 @@ def push(client, index='my-new-index', data=None, chunk=50):
 def index(host, index, data):
     push(make_index(Elasticsearch(host=host), index),
          index, data).indices.refresh(index=index)
+
+
+def query(host, index, **kwargs):
+    return Elasticsearch(host=host).search(index=index,
+                                           body={"query": {"match": kwargs}})
