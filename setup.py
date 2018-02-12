@@ -24,6 +24,7 @@ setup(name='lcmap-giraffe',
       packages=find_packages(),
       install_requires=[
           'requests',
+          'elasticsearch',
       ],
       # List additional groups of dependencies here (e.g. development
       # dependencies). You can install these using the following syntax,
