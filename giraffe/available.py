@@ -11,7 +11,7 @@ def metadata(series):
 
 
 def updates(username, password, chunk, limit, keep):
-    return metadata(map(partial(f.clean, keep=keep),
+    return metadata(map(lambda x: f.clean(keep, x),
                     m2m.psearch(m2m.login(username, password),
                                 chunk=chunk, limit=limit)))
 
