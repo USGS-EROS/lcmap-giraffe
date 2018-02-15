@@ -3,7 +3,6 @@
 from functools import partial, reduce
 from operator import add
 
-from giraffe import docstore
 from giraffe import funcs as f
 from giraffe import iwds
 from giraffe import landsat
@@ -27,14 +26,9 @@ def subset(response):
 
 
 def updates(host, tiles):
-    return map(subset, iwds.inventory(host, reduce(add,
-               map(all_tifs, tiles))))
-
-
-def push(host='localhost', sink='localhost', index='my-layer-data', tiles=None):
     strptimes = {'date_acquired': '%Y%m%d',
                  'date_modified': '%Y%m%d',
                  'http_date': '%a, %d %b %Y %H:%M:%S GMT'}
-    docstore.index(sink, index,
-                   map(partial(f.parse_date, strptimes=strptimes),
-                       updates(host, tiles)))
+    return map(partial(f.parse_date, strptimes=strptimes),
+               map(subset, iwds.inventory(host, reduce(add,
+                   map(all_tifs, tiles)))))
