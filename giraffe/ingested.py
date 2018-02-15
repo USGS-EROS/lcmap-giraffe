@@ -21,8 +21,10 @@ def all_tifs(item, tifs=TIFFS):
 
 
 def subset(response):
-    return dict(_id=response['source'],  http_date=iwds.http_date(response),
-                **landsat.info(response['source']))
+    return dict(_id=response['_id'],
+                **(dict({'http_date': iwds.http_date(response['inventory'])}
+                        if response.get('inventory') else {},
+                **landsat.info(response['_id']))))
 
 
 def updates(host, tiles):
