@@ -22,8 +22,8 @@ def all_tifs(item, tifs=TIFFS):
 
 
 def subset(response):
-    return dict(n_chips=iwds.n_chips(response), http_date=iwds.http_date(response),
-                _id=response['source'], **landsat.info(response['source']))
+    return dict(_id=response['source'],  http_date=iwds.http_date(response),
+                **landsat.info(response['source']))
 
 
 def updates(host, tiles):
