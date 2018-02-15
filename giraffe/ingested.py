@@ -31,6 +31,7 @@ def updates(host, tiles):
     strptimes = {'date_acquired': '%Y%m%d',
                  'date_modified': '%Y%m%d',
                  'http_date': '%a, %d %b %Y %H:%M:%S GMT'}
-    return map(partial(f.parse_date, strptimes=strptimes),
+    return f.timestamp(
+            map(partial(f.parse_date, strptimes=strptimes),
                map(subset, iwds.inventory(host, reduce(add,
-                   map(all_tifs, tiles)))))
+                   map(all_tifs, tiles))))))

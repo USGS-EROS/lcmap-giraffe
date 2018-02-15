@@ -54,6 +54,32 @@ curl -X POST -u admin:secret -H "Content-Type: application/json" \
       http://${GRAFANA_HOST}:3000/api/datasources -d "$(generate_post_data)"
 echo; echo;
 
+generate_post_data()
+{
+  cat <<EOF
+{
+    "id": 2,
+    "name": "MISSING_TIFS",
+    "type": "elasticsearch",
+    "access": "proxy",
+    "url": "http://${ELASTIC_HOST}:9200",
+    "password": "",
+    "user": "",
+    "database": "iwds-tifs",
+    "basicAuth": false,
+    "isDefault": false,
+    "jsonData": {
+      "timeField": "@timestamp",
+      "esVersion":56
+    },
+    "readOnly": false
+  }
+EOF
+}
+curl -X POST -u admin:secret -H "Content-Type: application/json" \
+      http://${GRAFANA_HOST}:3000/api/datasources -d "$(generate_post_data)"
+echo; echo;
+
 
 curl -X POST -u admin:secret  -H "Content-Type: application/json" \
       http://${GRAFANA_HOST}:3000/api/dashboards/db -d @bin/overview.json
