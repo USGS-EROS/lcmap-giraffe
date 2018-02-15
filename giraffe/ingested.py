@@ -22,7 +22,7 @@ def all_tifs(item, tifs=TIFFS):
 
 def subset(response):
     return dict(_id=response['_id'],
-                **(dict({'http_date': iwds.http_date(response['inventory'])}
+                **(dict({'http_date': iwds.http_date(response.get('inventory')[0])}
                         if response.get('inventory') else {},
                 **landsat.info(response['_id']))))
 
