@@ -11,7 +11,7 @@
                 "fontSize": "100%",
                 "gridPos": {
                     "h": 4,
-                    "w": 12,
+                    "w": 9,
                     "x": 0,
                     "y": 0
                 },
@@ -104,8 +104,8 @@
                 "fontSize": "100%",
                 "gridPos": {
                     "h": 4,
-                    "w": 12,
-                    "x": 12,
+                    "w": 8,
+                    "x": 9,
                     "y": 0
                 },
                 "hideTimeOverride": true,
@@ -187,6 +187,98 @@
                 ],
                 "timeFrom": "100y",
                 "title": "All IWDS TIFs",
+                "transform": "table",
+                "type": "table"
+            },
+            {
+                "columns": [],
+                "datasource": "LAYERS_INGESTED",
+                "fontSize": "100%",
+                "gridPos": {
+                    "h": 4,
+                    "w": 7,
+                    "x": 17,
+                    "y": 0
+                },
+                "hideTimeOverride": true,
+                "id": 9,
+                "links": [],
+                "pageSize": null,
+                "scroll": true,
+                "showHeader": true,
+                "sort": {
+                    "col": 0,
+                    "desc": true
+                },
+                "styles": [
+                    {
+                        "$$hashKey": "object:458",
+                        "alias": "Time",
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "pattern": "Time",
+                        "type": "date"
+                    },
+                    {
+                        "$$hashKey": "object:459",
+                        "alias": "",
+                        "colorMode": null,
+                        "colors": [
+                            "rgba(245, 54, 54, 0.9)",
+                            "rgba(237, 129, 40, 0.89)",
+                            "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "decimals": 2,
+                        "pattern": "/.*/",
+                        "thresholds": [],
+                        "type": "number",
+                        "unit": "short"
+                    }
+                ],
+                "targets": [
+                    {
+                        "$$hashKey": "object:260",
+                        "bucketAggs": [
+                            {
+                                "$$hashKey": "object:291",
+                                "fake": true,
+                                "field": "tile_h.keyword",
+                                "id": "3",
+                                "settings": {
+                                    "min_doc_count": 1,
+                                    "order": "desc",
+                                    "orderBy": "_term",
+                                    "size": "10"
+                                },
+                                "type": "terms"
+                            },
+                            {
+                                "$$hashKey": "object:269",
+                                "field": "tile_v.keyword",
+                                "id": "2",
+                                "settings": {
+                                    "min_doc_count": 1,
+                                    "order": "desc",
+                                    "orderBy": "_term",
+                                    "size": "10"
+                                },
+                                "type": "terms"
+                            }
+                        ],
+                        "metrics": [
+                            {
+                                "$$hashKey": "object:267",
+                                "field": "select field",
+                                "id": "1",
+                                "type": "count"
+                            }
+                        ],
+                        "query": "(tileid:$TileID AND -_exists_:http_date)",
+                        "refId": "A",
+                        "timeField": "http_date"
+                    }
+                ],
+                "timeFrom": "100y",
+                "title": "Missing TIFs",
                 "transform": "table",
                 "type": "table"
             },
@@ -430,7 +522,7 @@
                         "tags": [],
                         "text": "All",
                         "value": [
-                          "$__all"
+                            "$__all"
                         ]
                     },
                     "datasource": "ARD_AVAILABLE",
