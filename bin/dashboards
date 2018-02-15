@@ -60,7 +60,12 @@ curl -X POST -u admin:secret  -H "Content-Type: application/json" \
 echo; echo;
 
 
-curl -X PUT -u admin:secret -H "Content-Type: application/json" \
-      http://${GRAFANA_HOST}:3000/api/org/preferences \
+curl -X POST -u admin:secret -H "Content-Type: application/json" \
+       http://${GRAFANA_HOST}:3000/api/admin/users \
+       -d ' { "name":"User", "email":"", "login":"user", "password":"userpassword"}'
+
+
+curl -X PUT -u user:userpassword -H "Content-Type: application/json" \
+      http://${GRAFANA_HOST}:3000/api/user/preferences \
       -d '{"theme":"dark","homeDashboardId":1,"timezone":"browser"}'
 echo; echo;
