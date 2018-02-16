@@ -20,13 +20,13 @@ def transform(search_result):
                                     search_result)))
 
 
-def updates(host, username, password, chunk=5e3, limit=5e4):
-    limit = limit or m2m.slimit(host, m2m.login(host, username, password))
+def updates(url, username, password, chunk=5e3, limit=5e4, **kwargs):
+    limit = limit or m2m.slimit(url, m2m.login(url, username, password), **kwargs)
     chunk = min(map(int, [limit, chunk]))
-    for i in range(0, limit, chunk):
+    for i in range(0, int(limit), int(chunk)):
         yield f.timestamp(transform(
-                    m2m.search(host, m2m.login(host, username, password),
-                               start=i+1, limit=chunk)))
+                    m2m.search(url, m2m.login(url, username, password),
+                               start=i+1, limit=chunk, **kwargs).get('results')))
 
 
 def tiles(host, index, **kwargs):
