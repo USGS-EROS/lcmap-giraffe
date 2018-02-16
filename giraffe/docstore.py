@@ -1,5 +1,7 @@
 """ Interface to a NoSQL Document Store """
 
+from giraffe import logger
+
 from elasticsearch import Elasticsearch
 from elasticsearch.exceptions import TransportError
 from elasticsearch.helpers import bulk, streaming_bulk
@@ -22,6 +24,7 @@ def push(client, index='my-new-index', data=None, chunk=50):
                                      doc_type='doc', chunk_size=chunk):
         action, result = result.popitem()
         doc_id = '/%s/doc/%s' % (index, result['_id'])
+        logger.info(' '.join([doc_id, action, result['result']]))
     return client
 
 
