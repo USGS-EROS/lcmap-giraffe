@@ -40,6 +40,7 @@ setup(name='lcmap-giraffe',
       },
       entry_points={
           'console_scripts': [
+            'giraffe = giraffe.cli:main'
           ],
       },
       include_package_data=True,
