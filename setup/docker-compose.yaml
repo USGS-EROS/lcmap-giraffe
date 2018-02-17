@@ -16,6 +16,7 @@ services:
     user: ${UID:-1000}
     volumes:
       - esdata1:/usr/share/elasticsearch/data
+      - /etc/localtime:/etc/localtime:ro
     ports:
       - 9200
     networks:
@@ -33,6 +34,7 @@ services:
     volumes:
        - grafana1:/var/lib/grafana
        - ./grafana:/etc/grafana
+       - /etc/localtime:/etc/localtime:ro
     networks:
       - lcmap_giraffe
 
