@@ -6,7 +6,7 @@ datasources:
   # <string, required> access mode. direct or proxy. Required
   access: proxy
   org_id: 1
-  url: http://localhost:9200
+  url: http://elastic:9200
   password:
   user:
   database: ard-tiles
@@ -25,7 +25,7 @@ datasources:
   # <string, required> access mode. direct or proxy. Required
   access: proxy
   org_id: 1
-  url: http://localhost:9200
+  url: http://elastic:9200
   password:
   user:
   database: iwds-tifs
@@ -44,7 +44,7 @@ datasources:
   # <string, required> access mode. direct or proxy. Required
   access: proxy
   org_id: 1
-  url: http://localhost:9200
+  url: http://elastic:9200
   password:
   user:
   database: iwds-tifs

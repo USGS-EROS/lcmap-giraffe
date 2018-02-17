@@ -17,7 +17,9 @@ services:
     volumes:
       - esdata1:/usr/share/elasticsearch/data
     ports:
-      - 127.0.0.1:9200:9200
+      - 9200
+    networks:
+      - lcmap_giraffe
   dashboard:
     image: grafana/grafana:5.0.0-beta1
     container_name: dashboard
@@ -31,7 +33,13 @@ services:
     volumes:
        - grafana1:/var/lib/grafana
        - ./grafana:/etc/grafana
+    networks:
+      - lcmap_giraffe
 
 volumes:
   esdata1:
   grafana1:
+
+networks:
+  lcmap_giraffe:
+    driver: bridge
