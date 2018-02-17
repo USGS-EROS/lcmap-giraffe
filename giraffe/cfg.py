@@ -25,5 +25,6 @@ def from_file(section, config_file=None):
             for opt in config.options(section)}
 
 
-def get(section, config_file=None):
-    return dict(from_file(section, config_file), **from_env(section))
+def get(section, config_file=None, lower=False):
+    return {k.lower() if lower else k: v for k, v in
+            dict(from_file(section, config_file), **from_env(section)).items()}

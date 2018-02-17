@@ -24,7 +24,7 @@ def configure_log(level='INFO'):
 
 
 def run():
-    data = available.updates(**{k.lower(): v for k, v in cfg.get('m2m').items()})
+    data = available.updates(**cfg.get('m2m', lower=True))
     for d in data:
         docstore.index(host=cfg.get('ard')['ES_HOST'], index=cfg.get('ard')['ES_INDEX'], data=d)
 
