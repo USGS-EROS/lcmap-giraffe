@@ -115,7 +115,7 @@
       },
       {
         "columns": [],
-        "datasource": "TIFS_BY_TOUCHED",
+        "datasource": "TIFS_BY_TSTAMP",
         "fontSize": "100%",
         "gridPos": {
           "h": 8,
@@ -265,7 +265,7 @@
               "$__all"
             ]
           },
-          "datasource": "TIFS_BY_TOUCHED",
+          "datasource": "TIFS_BY_TSTAMP",
           "hide": 0,
           "includeAll": true,
           "label": null,
