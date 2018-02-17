@@ -227,7 +227,7 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "MISSING_BY_ACQ",
+      "datasource": "TIFS_BY_ACQ",
       "fill": 1,
       "gridPos": {
         "h": 6,
@@ -330,113 +330,6 @@
           "show": true
         }
       ]
-    },
-    {
-      "columns": [],
-      "datasource": "MISSING_BY_ACQ",
-      "fontSize": "100%",
-      "gridPos": {
-        "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 17
-      },
-      "id": 7,
-      "links": [],
-      "pageSize": null,
-      "scroll": true,
-      "showHeader": true,
-      "sort": {
-        "col": 3,
-        "desc": true
-      },
-      "styles": [
-        {
-          "alias": "Acquisition Date",
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "pattern": "Time",
-          "type": "date"
-        },
-        {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "thresholds": [],
-          "type": "number",
-          "unit": "short"
-        }
-      ],
-      "targets": [
-        {
-          "bucketAggs": [
-            {
-              "fake": true,
-              "field": "sensor.keyword",
-              "id": "3",
-              "settings": {
-                "min_doc_count": 1,
-                "order": "desc",
-                "orderBy": "_term",
-                "size": "10"
-              },
-              "type": "terms"
-            },
-            {
-              "fake": true,
-              "field": "region.keyword",
-              "id": "4",
-              "settings": {
-                "min_doc_count": 1,
-                "order": "desc",
-                "orderBy": "_term",
-                "size": "10"
-              },
-              "type": "terms"
-            },
-            {
-              "fake": true,
-              "field": "collection.keyword",
-              "id": "5",
-              "settings": {
-                "min_doc_count": 1,
-                "order": "desc",
-                "orderBy": "_term",
-                "size": "10"
-              },
-              "type": "terms"
-            },
-            {
-              "field": "date_acquired",
-              "id": "2",
-              "settings": {
-                "interval": "1y",
-                "min_doc_count": 0,
-                "trimEdges": 0
-              },
-              "type": "date_histogram"
-            }
-          ],
-          "metrics": [
-            {
-              "field": "select field",
-              "id": "1",
-              "type": "count"
-            }
-          ],
-          "query": "tileid:$TileID AND -_exists_:http_date",
-          "refId": "A",
-          "timeField": "date_acquired"
-        }
-      ],
-      "title": "Missing TIFs",
-      "transform": "timeseries_to_columns",
-      "type": "table"
     }
   ],
   "refresh": "5s",
@@ -455,7 +348,7 @@
             "$__all"
           ]
         },
-        "datasource": "ARD_AVAILABLE",
+        "datasource": "ARD_BY_ACQ",
         "hide": 0,
         "includeAll": true,
         "label": null,

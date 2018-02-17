@@ -1,9 +1,8 @@
 # list of datasources to insert/update depending
 # whats available in the datbase
 datasources:
-- name: ARD_AVAILABLE
+- name: ARD_BY_MOD
   type: elasticsearch
-  # <string, required> access mode. direct or proxy. Required
   access: proxy
   org_id: 1
   url: http://elastic:9200
@@ -20,47 +19,8 @@ datasources:
      esVersion: 56
   version: 1
   editable: false
-- name: LAYERS_INGESTED
-  type: elasticsearch
-  # <string, required> access mode. direct or proxy. Required
-  access: proxy
-  org_id: 1
-  url: http://elastic:9200
-  password:
-  user:
-  database: iwds-tifs
-  basic_auth: false
-  basic_auth_user:
-  basic_auth_password:
-  with_credentials:
-  is_default: false
-  json_data:
-     timeField: http_date
-     esVersion: 56
-  version: 1
-  editable: false
-- name: MISSING_TIFS
-  type: elasticsearch
-  # <string, required> access mode. direct or proxy. Required
-  access: proxy
-  org_id: 1
-  url: http://elastic:9200
-  password:
-  user:
-  database: iwds-tifs
-  basic_auth: false
-  basic_auth_user:
-  basic_auth_password:
-  with_credentials:
-  is_default: false
-  json_data:
-     timeField: "@timestamp"
-     esVersion: 56
-  version: 1
-  editable: false
 - name: ARD_BY_ACQ
   type: elasticsearch
-  # <string, required> access mode. direct or proxy. Required
   access: proxy
   org_id: 1
   url: http://elastic:9200
@@ -77,9 +37,45 @@ datasources:
      esVersion: 56
   version: 1
   editable: false
+
+- name: TIFS_BY_HTTP
+  type: elasticsearch
+  access: proxy
+  org_id: 1
+  url: http://elastic:9200
+  password:
+  user:
+  database: iwds-tifs
+  basic_auth: false
+  basic_auth_user:
+  basic_auth_password:
+  with_credentials:
+  is_default: false
+  json_data:
+     timeField: http_date
+     esVersion: 56
+  version: 1
+  editable: false
+- name: TIFS_BY_TSTAMP
+  type: elasticsearch
+  access: proxy
+  org_id: 1
+  url: http://elastic:9200
+  password:
+  user:
+  database: iwds-tifs
+  basic_auth: false
+  basic_auth_user:
+  basic_auth_password:
+  with_credentials:
+  is_default: false
+  json_data:
+     timeField: "@timestamp"
+     esVersion: 56
+  version: 1
+  editable: false
 - name: TIFS_BY_ACQ
   type: elasticsearch
-  # <string, required> access mode. direct or proxy. Required
   access: proxy
   org_id: 1
   url: http://elastic:9200
@@ -96,28 +92,8 @@ datasources:
      esVersion: 56
   version: 1
   editable: false
-- name: MISSING_BY_ACQ
+- name: TIFS_BY_MOD
   type: elasticsearch
-  # <string, required> access mode. direct or proxy. Required
-  access: proxy
-  org_id: 1
-  url: http://elastic:9200
-  password:
-  user:
-  database: iwds-tifs
-  basic_auth: false
-  basic_auth_user:
-  basic_auth_password:
-  with_credentials:
-  is_default: false
-  json_data:
-     timeField: date_acquired
-     esVersion: 56
-  version: 1
-  editable: false
-- name: MISSING_BY_MOD
-  type: elasticsearch
-  # <string, required> access mode. direct or proxy. Required
   access: proxy
   org_id: 1
   url: http://elastic:9200
