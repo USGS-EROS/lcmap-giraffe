@@ -24,7 +24,7 @@ services:
     image: grafana/grafana:5.0.0-beta1
     container_name: dashboard
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"
     environment: []
       # GF_INSTALL_PLUGINS: >
       #   grafana-simple-json-datasource,grafana-piechart-panel,
