@@ -58,4 +58,61 @@ datasources:
      esVersion: 56
   version: 1
   editable: false
+- name: ARD_BY_ACQ
+  type: elasticsearch
+  # <string, required> access mode. direct or proxy. Required
+  access: proxy
+  org_id: 1
+  url: http://elastic:9200
+  password:
+  user:
+  database: ard-tiles
+  basic_auth: false
+  basic_auth_user:
+  basic_auth_password:
+  with_credentials:
+  is_default: false
+  json_data:
+     timeField: acquisition_date
+     esVersion: 56
+  version: 1
+  editable: false
+- name: TIFS_BY_ACQ
+  type: elasticsearch
+  # <string, required> access mode. direct or proxy. Required
+  access: proxy
+  org_id: 1
+  url: http://elastic:9200
+  password:
+  user:
+  database: iwds-tifs
+  basic_auth: false
+  basic_auth_user:
+  basic_auth_password:
+  with_credentials:
+  is_default: false
+  json_data:
+     timeField: date_acquired
+     esVersion: 56
+  version: 1
+  editable: false
+- name: MISSING_BY_ACQ
+  type: elasticsearch
+  # <string, required> access mode. direct or proxy. Required
+  access: proxy
+  org_id: 1
+  url: http://elastic:9200
+  password:
+  user:
+  database: iwds-tifs
+  basic_auth: false
+  basic_auth_user:
+  basic_auth_password:
+  with_credentials:
+  is_default: false
+  json_data:
+     timeField: date_acquired
+     esVersion: 56
+  version: 1
+  editable: false
 
