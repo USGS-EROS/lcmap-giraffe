@@ -1,7 +1,7 @@
 """ Command-line-interface entrypoint for Docker """
 
 import argparse
-import logging
+import logging, time
 from itertools import islice
 
 from . import available
@@ -24,14 +24,20 @@ def configure_log(level='INFO'):
 
 
 def run():
-    data = available.updates(**cfg.get('m2m', lower=True))
-    for d in data:
-        docstore.index(host=cfg.get('ard')['ES_HOST'], index=cfg.get('ard')['ES_INDEX'], data=d)
+    while time.sleep(3) is None:
+        try:
+            data = available.updates(**cfg.get('m2m', lower=True))
+            for d in data:
+                docstore.index(host=cfg.get('ard')['ES_HOST'], index=cfg.get('ard')['ES_INDEX'], data=d)
 
-        docstore.index(host=cfg.get('iwds')['ES_HOST'],
-                        index=cfg.get('iwds')['ES_INDEX'],
-                        data=ingested.updates(host=cfg.get('iwds')['URL'],
-                        tiles=d))
+                docstore.index(host=cfg.get('iwds')['ES_HOST'],
+                                index=cfg.get('iwds')['ES_INDEX'],
+                                data=ingested.updates(host=cfg.get('iwds')['URL'],
+                                tiles=d))
+        except KeyboardInterrupt:
+            exit(1)
+        except BaseException as e:
+            print(e)
 
 
 def main():
