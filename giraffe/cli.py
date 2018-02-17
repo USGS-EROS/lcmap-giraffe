@@ -25,21 +25,13 @@ def configure_log(level='INFO'):
 
 def run():
     data = available.updates(**{k.lower(): v for k, v in cfg.get('m2m').items()})
-    i = 0
-    try:
-        while True:
-            d = list(islice(data, i, i+1))[0] # Grab a single chunk via HTTP
-            docstore.index(host=cfg.get('ard')['ES_HOST'], index=cfg.get('ard')['ES_INDEX'],
-                        data=d)
-            i+=1
+    for d in data:
+        docstore.index(host=cfg.get('ard')['ES_HOST'], index=cfg.get('ard')['ES_INDEX'], data=d)
 
-            docstore.index(host=cfg.get('iwds')['ES_HOST'],
-                            index=cfg.get('iwds')['ES_INDEX'],
-                            data=ingested.updates(host=cfg.get('iwds')['URL'],
-                            tiles=d))
-    except IndexError as e:
-        pass
-
+        docstore.index(host=cfg.get('iwds')['ES_HOST'],
+                        index=cfg.get('iwds')['ES_INDEX'],
+                        data=ingested.updates(host=cfg.get('iwds')['URL'],
+                        tiles=d))
 
 
 def main():
