@@ -35,3 +35,10 @@ def index(host, index, data):
 
 def query(host, index, **kwargs):
     return Elasticsearch(host=host).search(index=index, body={"query": kwargs})
+
+
+def sorted(host, index, field, order='desc'):
+    body = dict(size=1, query=dict(match_all=dict()),
+                sort=[{field: dict(order=order)}])
+    return Elasticsearch(host=host).search(index=index, body=body
+                         )['hits']['hits'][-1]['_source'][field]
