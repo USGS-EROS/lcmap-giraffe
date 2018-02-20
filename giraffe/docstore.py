@@ -33,8 +33,9 @@ def index(host, index, data):
          index, data).indices.refresh(index=index)
 
 
-def query(host, index, **kwargs):
-    return Elasticsearch(host=host).search(index=index, body={"query": kwargs})
+def query(host, index, size=10, **kwargs):
+    body = dict(query=kwargs, size=size)
+    return Elasticsearch(host=host).search(index=index, body=body)
 
 
 def sorted(host, index, field, order='desc'):
