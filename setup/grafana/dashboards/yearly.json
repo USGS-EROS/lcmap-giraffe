@@ -55,7 +55,7 @@
               "type": "terms"
             },
             {
-              "field": "acquisition_date",
+              "field": "date_acquired",
               "id": "2",
               "settings": {
                 "interval": "1y",
@@ -74,7 +74,7 @@
           ],
           "query": "tileid:$TileID",
           "refId": "A",
-          "timeField": "acquisition_date"
+          "timeField": "date_acquired"
         }
       ],
       "thresholds": [],
@@ -330,6 +330,265 @@
           "show": true
         }
       ]
+    },
+    {
+      "circleMaxSize": "30",
+      "circleMinSize": "2",
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(50, 172, 45, 0.97)"
+      ],
+      "datasource": "TIFS_BY_HTTP",
+      "decimals": 0,
+      "esGeoPoint": "@location",
+      "esLocationName": "@location",
+      "esMetric": "Count",
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 17
+      },
+      "hideEmpty": false,
+      "hideZero": false,
+      "id": 7,
+      "initialZoom": "3",
+      "links": [],
+      "locationData": "geohash",
+      "mapCenter": "North America",
+      "mapCenterLatitude": 40,
+      "mapCenterLongitude": -100,
+      "maxDataPoints": 1,
+      "showLegend": true,
+      "stickyLabels": false,
+      "targets": [
+        {
+          "bucketAggs": [
+            {
+              "fake": true,
+              "field": "@location",
+              "id": "3",
+              "settings": {
+                "precision": 3
+              },
+              "type": "geohash_grid"
+            }
+          ],
+          "metrics": [
+            {
+              "field": "select field",
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "",
+          "refId": "A",
+          "timeField": "http_date"
+        }
+      ],
+      "thresholds": "0,10",
+      "title": "TIFs Ingested",
+      "type": "grafana-worldmap-panel",
+      "unitPlural": "",
+      "unitSingle": "",
+      "valueName": "total"
+    },
+    {
+      "circleMaxSize": 30,
+      "circleMinSize": 2,
+      "colors": [
+        "rgba(50, 172, 45, 0.97)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(245, 54, 54, 0.9)"
+      ],
+      "datasource": "TIFS_BY_TSTAMP",
+      "decimals": 0,
+      "esGeoPoint": "@location",
+      "esLocationName": "@location",
+      "esMetric": "Count",
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 17
+      },
+      "hideEmpty": false,
+      "hideZero": false,
+      "id": 9,
+      "initialZoom": "3",
+      "links": [],
+      "locationData": "geohash",
+      "mapCenter": "North America",
+      "mapCenterLatitude": 40,
+      "mapCenterLongitude": -100,
+      "maxDataPoints": 1,
+      "showLegend": true,
+      "stickyLabels": false,
+      "targets": [
+        {
+          "bucketAggs": [
+            {
+              "fake": true,
+              "field": "@location",
+              "id": "3",
+              "settings": {
+                "precision": 3
+              },
+              "type": "geohash_grid"
+            }
+          ],
+          "metrics": [
+            {
+              "field": "select field",
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "tileid:$TileID and -_exists_:http_date",
+          "refId": "A",
+          "timeField": "@timestamp"
+        }
+      ],
+      "thresholds": "0,10",
+      "title": "Missing TIFs",
+      "type": "grafana-worldmap-panel",
+      "unitPlural": "",
+      "unitSingle": "",
+      "valueName": "total"
+    },
+    {
+      "columns": [],
+      "datasource": "TIFS_BY_HTTP",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 26
+      },
+      "id": 11,
+      "links": [],
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "bucketAggs": [
+            {
+              "fake": true,
+              "field": "sensor.keyword",
+              "id": "4",
+              "settings": {
+                "min_doc_count": 1,
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
+            },
+            {
+              "fake": true,
+              "field": "region.keyword",
+              "id": "5",
+              "settings": {
+                "min_doc_count": 1,
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
+            },
+            {
+              "fake": true,
+              "field": "tile_h.keyword",
+              "id": "6",
+              "settings": {
+                "min_doc_count": 1,
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
+            },
+            {
+              "fake": true,
+              "field": "tile_v.keyword",
+              "id": "7",
+              "settings": {
+                "min_doc_count": 1,
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
+            },
+            {
+              "fake": true,
+              "field": "layer.keyword",
+              "id": "8",
+              "settings": {
+                "min_doc_count": 1,
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
+            },
+            {
+              "fake": true,
+              "field": "collection.keyword",
+              "id": "3",
+              "settings": {
+                "min_doc_count": 1,
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
+            }
+          ],
+          "metrics": [
+            {
+              "field": "select field",
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "tileid:$TileID",
+          "refId": "A",
+          "timeField": "http_date"
+        }
+      ],
+      "title": "IWDS TIFs Available",
+      "transform": "table",
+      "type": "table"
     }
   ],
   "schemaVersion": 16,
