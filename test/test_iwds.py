@@ -5,6 +5,7 @@ import test
 
 @test.vcr.use_cassette(test.i_cassette)
 def test_search():
-    response = iwds.inventory('http://localhost:5656', ['LC08_CU_027009_20130701_20170729_C01_V01_SRB1.tif'])
+    response = iwds.inventory(test.i_url, ['LT05_CU_022013_20070906_20170923_C01_V01_BTB6.tif'])
     assert isinstance(response, list)
-    assert set(response[0]) == {'layer', 'extra', 'url', 'source', 'tile', 'chips'}
+    print(response)
+    assert set(response[0]) == {'extra', 'source'}

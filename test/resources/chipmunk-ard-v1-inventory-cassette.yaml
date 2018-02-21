@@ -1,23 +1,17 @@
 interactions:
 - request:
     body: null
-    headers:
-      Accept: ['*/*']
-      Accept-Encoding: ['gzip, deflate']
-      Connection: [keep-alive]
-      User-Agent: [python-requests/2.18.4]
+    headers: {}
     method: GET
-    uri: http://localhost:5656/inventory?source=LC08_CU_027009_20130701_20170729_C01_V01_SRB1.tif
+    uri: http://localhost:5656/inventory
   response:
-    body: {string: '[{"source":"LC08_CU_027009_20130701_20170729_C01_V01_SRB1.tif","chips":[{"x":1484415,"y":1964805,"acquired":"2013-07-01T00:00:00Z","hash":"1bf729e7f7d1dac514ecea16f555a269"},{"x":1484415,"y":1961805,"acquired":"2013-07-01T00:00:00Z","hash":"2f43bc3f4700cc33a64f4829da16b7a2"}],"extra":{"url":"http://192.168.43.4/LC08_CU_027009_20130701_20170729_C01_V01_SR.tar/LC08_CU_027009_20130701_20170729_C01_V01_SRB1.tif","http":{"opts":{"method":"head","url":"http://192.168.43.4/LC08_CU_027009_20130701_20170729_C01_V01_SR.tar"},"headers":{"accept-ranges":"bytes","connection":"keep-alive","content-length":"22083072","content-type":"application/octet-stream","date":"Mon,
-        12 Feb 2018 21:01:22 GMT","etag":"\"5a78d8db-150f600\"","last-modified":"Mon,
-        05 Feb 2018 22:21:15 GMT","server":"nginx/1.13.8"},"status":200},"path":{"mission":"LC08","collection":"01","acquired":"20130701","id":"LC08_CU_027009_20130701_20170729_C01_V01_SRB1.tif","band":"SRB1","extension":".tif","tile":"027009","archive":"http://192.168.43.4/LC08_CU_027009_20130701_20170729_C01_V01_SR.tar","produced":"20170729","region":"CU","version":"01"},"acquired":"2013-07-01T00:00:00Z","name":"LC08_CU_027009_20130701_20170729_C01_V01_SRB1.tif","tile":"027009","meta":{"product_id":"LC08_CU_027009_20130701_20170729_C01_V01","satellite":"LANDSAT_8","collection":"01","acquired":"2013-07-01T00:00:00Z","tile":"027009","region":"CU","instrument":"OLI/TIRS_Combined","version":"01","tile_v":"009","tile_h":"027"},"gdal":{"path":"http://192.168.43.4/LC08_CU_027009_20130701_20170729_C01_V01_SR.tar/LC08_CU_027009_20130701_20170729_C01_V01_SRB1.tif","metadata":{"AREA_OR_POINT":"Area","Band_1":"band
-        1 surface reflectance"},"projection":"PROJCS[\"Albers\",GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS
-        84\",6378140,298.2569999999986,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433],AUTHORITY[\"EPSG\",\"4326\"]],PROJECTION[\"Albers_Conic_Equal_Area\"],PARAMETER[\"standard_parallel_1\",29.5],PARAMETER[\"standard_parallel_2\",45.5],PARAMETER[\"latitude_of_center\",23],PARAMETER[\"longitude_of_center\",-96],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]]]","raster-x-size":5000,"raster-y-size":5000,"raster-count":1,"geo-transform":[1484415.0,30.0,0.0,1964805.0,0.0,-30.0]},"ubid":"LC08_SRB1"},"layer":"LC08_SRB1","tile":"027009","url":"http://192.168.43.4/LC08_CU_027009_20130701_20170729_C01_V01_SR.tar/LC08_CU_027009_20130701_20170729_C01_V01_SRB1.tif"}]'}
-    headers:
-      Content-Length: ['257347']
-      Content-Type: [application/json; charset=utf-8]
-      Date: ['Mon, 12 Feb 2018 21:03:35 GMT']
-      Server: [http-kit]
+    body: {string: '[{"source":"LT05_CU_022013_20070906_20170923_C01_V01_BTB6.tif","extra":{"headers":{"date":"Mon, 19 Feb 2018 10:27:51 GMT"}}}]'}
+    headers: {Content-Length: '2420', Content-Type: application/json; charset=utf-8,
+      Date: 'Wed, 21 Feb 2018 18:29:48 GMT', Server: http-kit}
     status: {code: 200, message: OK}
+    url: !!python/object/new:yarl.URL
+      state: !!python/tuple
+      - !!python/object/new:urllib.parse.SplitResult [http, 'localhost:5656',
+        /inventory, only=source&only=extra&source=LT05_CU_022013_20070906_20170923_C01_V01_BTB6.tif,
+        '']
 version: 1

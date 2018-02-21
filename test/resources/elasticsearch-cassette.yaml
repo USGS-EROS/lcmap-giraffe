@@ -1,0 +1,47 @@
+interactions:
+- request:
+    body: '{"mappings":{"doc":{"properties":{"@location":{"type":"geo_point"},"@timetamp":{"type":"date"},"date_acquired":{"type":"date"},"date_modified":{"type":"date"},"http_date":{"type":"date"}}}}}'
+    headers:
+      connection: [keep-alive]
+      content-type: [application/json]
+    method: PUT
+    uri: http://localhost:9200/my-elastic-index
+  response:
+    body: {string: '{"error":{"root_cause":[{"type":"resource_already_exists_exception","reason":"index
+        [my-elastic-index/_koYmBWST1m-ds2XW1Di1A] already exists","index_uuid":"_koYmBWST1m-ds2XW1Di1A","index":"my-elastic-index"}],"type":"resource_already_exists_exception","reason":"index
+        [my-elastic-index/_koYmBWST1m-ds2XW1Di1A] already exists","index_uuid":"_koYmBWST1m-ds2XW1Di1A","index":"my-elastic-index"},"status":400}'}
+    headers:
+      content-length: ['405']
+      content-type: [application/json; charset=UTF-8]
+    status: {code: 400, message: Bad Request}
+- request:
+    body: '{"index":{}}
+
+      {"@timestamp":"data"}
+
+'
+    headers:
+      connection: [keep-alive]
+      content-type: [application/x-ndjson]
+    method: POST
+    uri: http://localhost:9200/my-elastic-index/doc/_bulk
+  response:
+    body: {string: '{"took":22,"errors":false,"items":[{"index":{"_index":"my-elastic-index","_type":"doc","_id":"d9-guWEBGczuh32c8Y50","_version":1,"result":"created","_shards":{"total":2,"successful":1,"failed":0},"_seq_no":1,"_primary_term":1,"status":201}}]}'}
+    headers:
+      content-length: ['242']
+      content-type: [application/json; charset=UTF-8]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      connection: [keep-alive]
+      content-type: [application/json]
+    method: POST
+    uri: http://localhost:9200/my-elastic-index/_refresh
+  response:
+    body: {string: '{"_shards":{"total":10,"successful":5,"failed":0}}'}
+    headers:
+      content-length: ['50']
+      content-type: [application/json; charset=UTF-8]
+    status: {code: 200, message: OK}
+version: 1
