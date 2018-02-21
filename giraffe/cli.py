@@ -28,9 +28,9 @@ def configure_log(level='INFO'):
     logging.basicConfig(level=level, format=fmt)
 
 
-def start_crawl(start=None, fmt='%Y-%m-%d'):
-    start = start or docstore.sorted(cfg.get('ard')['ES_HOST'], cfg.get('ard')['ES_INDEX'], 'acquisition_date')
-    return dict(temporal_start=start[:10])
+def start_crawl(start=None, fmt='%Y-%m-%d', offset=-1):
+    start = start or docstore.sorted(cfg.get('ard')['ES_HOST'], cfg.get('ard')['ES_INDEX'], 'acquisition_date')[:10]
+    return dict(temporal_start=(datetime.datetime.strptime(start, fmt) + datetime.timedelta(offset)).strftime(fmt))
 
 
 def run():
@@ -42,7 +42,7 @@ def run():
             docstore.index(host=cfg.get('ard')['ES_HOST'], index=cfg.get('ard')['ES_INDEX'], data=new_acqs)
 
             fixes = f.timestamp(map(lambda x: dict(landsat.info(x), _id=x), reduce(add, map(ingested.all_tifs, new_acqs[:1]))))
-            docstore.index(host=cfg.get('ard')['ES_HOST'], index=cfg.get('ard')['ES_INDEX'], data=fixes)
+            docstore.index(host=cfg.get('iwds')['ES_HOST'], index=cfg.get('iwds')['ES_INDEX'], data=fixes)
 
             found = ingested.updates(host=cfg.get('iwds')['URL'],
                                                   tiles=new_acqs)
@@ -75,6 +75,7 @@ def run():
             exit(1)
         except BaseException as e:
             logger.critical(e, exc_info=True)
+            time.sleep(30)
 
 
 def main():
