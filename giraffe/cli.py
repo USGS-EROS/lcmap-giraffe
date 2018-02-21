@@ -8,6 +8,7 @@ from . import available
 from . import ingested
 from . import docstore
 from . import cfg
+from . import logger
 
 
 def parse_args(defaults=None):
@@ -37,7 +38,7 @@ def run():
         except KeyboardInterrupt:
             exit(1)
         except BaseException as e:
-            print(e)
+            logger.critical(e, exc_info=True)
 
 
 def main():
