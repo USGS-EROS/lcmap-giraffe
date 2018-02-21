@@ -27,14 +27,11 @@ services:
     ports:
       - "127.0.0.1:3000:3000"
     environment: []
-      # GF_INSTALL_PLUGINS: >
-      #   grafana-simple-json-datasource,grafana-piechart-panel,
-      #   mtanda-histogram-panel,mtanda-heatmap-epoch-panel,
-      #   neocat-cal-heatmap-panel
     volumes:
        - grafana1:/var/lib/grafana
        - ./grafana:/etc/grafana
        - /etc/localtime:/etc/localtime:ro
+       - ./grafana/plugins:/var/lib/grafana/plugins
     networks:
       - lcmap_giraffe
 
