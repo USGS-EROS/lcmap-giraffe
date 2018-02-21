@@ -27,6 +27,7 @@ setup(name='lcmap-giraffe',
           'elasticsearch',
           'aiohttp',
           'aiodns',
+          'geojson',
       ],
       # List additional groups of dependencies here (e.g. development
       # dependencies). You can install these using the following syntax,
