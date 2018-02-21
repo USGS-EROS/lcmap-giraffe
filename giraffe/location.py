@@ -13,9 +13,10 @@ REGIONS = {
 
 
 def locations(geojson_obj):
-    return {'{:03d}{:03d}'.format(int(f['properties']['h']), int(f['properties']['v'])):
+    return {'{:03d}{:03d}'.format(int(f['properties']['h'] or 0),
+                                  int(f['properties']['v'] or 0)):
                  f['geometry']['coordinates'][0][0]
-             for f in geojson_obj['features'] if f['properties']['h']}
+             for f in geojson_obj['features']}
 
 
 def read_all(regions=REGIONS, path_fmt=RESOURCE):
