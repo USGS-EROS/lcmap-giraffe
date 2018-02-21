@@ -21,10 +21,8 @@ def all_tifs(item, tifs=TIFFS):
 
 
 def subset(response):
-    return dict(_id=response['_id'],
-                **(dict({'http_date': iwds.http_date(response.get('inventory')[0])}
-                        if response.get('inventory') else {},
-                **landsat.info(response['_id']))))
+    return dict(_id=response['source'], http_date=iwds.http_date(response),
+                **landsat.info(response['source']))
 
 
 def updates(host, tiles):
@@ -33,5 +31,5 @@ def updates(host, tiles):
                  'http_date': '%a, %d %b %Y %H:%M:%S GMT'}
     return f.timestamp(
             map(partial(f.parse_date, strptimes=strptimes),
-               map(subset, iwds.inventory(host, reduce(add,
-                   map(all_tifs, tiles))))))
+               map(subset, reduce(add, iwds.inventory(host, reduce(add,
+                   map(all_tifs, tiles)))))))
