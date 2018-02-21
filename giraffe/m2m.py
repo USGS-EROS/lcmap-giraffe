@@ -1,17 +1,36 @@
 """ Client for EarthExplorer MachineToMachine API """
 import json
-import requests
+from functools import partial
+from functools import reduce
+from operator import add
+from giraffe import asynchttp
 
 
-def _api(host, endpoint, data=None):
-    url = '{}/{}'.format(host, endpoint)
-    body = {'jsonRequest': json.dumps(data)} if data else {}
-    return requests.post(url, data=body).json().get('data')
+def fmt_body(data=None):
+    return {'jsonRequest': json.dumps(data)} if data else {}
 
 
-def login(host, username='username', password='password'):
-    return _api(host, 'login',
-                {'username': username, 'password': password})
+def _api(url, endpoint, searches=None):
+    mreq = partial(asynchttp.make_req, verb='POST',
+                   url='{}/{}'.format(url, endpoint))
+    searches = list(map(lambda s: mreq(data=s), map(fmt_body, searches)))
+    return asynchttp.request(searches)
+
+
+def _data(series):
+    errors = list(filter(None, map(lambda x: x.get('error'), series)))
+    if errors:
+        raise IOError('m2m not working: {}'.format(errors))
+    return list(map(lambda x: x.get('data'), series))
+
+
+def _results(series):
+    return reduce(add, list(map(lambda x: x.get('results'), series)))
+
+
+def login(url, username='username', password='password', **kwargs):
+    return _data(_api(url, 'login',
+                [{'username': username, 'password': password}]))[-1]
 
 
 def add_additional(dataset='ARD_TILE', **kwargs):
@@ -47,11 +66,21 @@ def build_meta_search(**kwargs):
                  if k.startswith(y)}) for y,f in funcs.items()] for key in d])
 
 
-def search(host, token, dataset='ARD_TILE', start=1, limit=5e4, **kwargs):
+def make_search(token, dataset='ARD_TILE', start=1, limit=5e4, **kwargs):
     query = {'apiKey': token, 'datasetName': dataset, "sortOrder": "ASC",
              'startingNumber': start, 'maxResults': limit}
-    return _api(host, 'search', dict(query, **build_meta_search(**kwargs)))
+    return dict(query, **build_meta_search(**kwargs))
 
 
-def slimit(host, token, dataset='ARD_TILE', **kwargs):
-    return search(host, token, dataset, limit=1, **kwargs).get('totalHits')
+def search(url, token, dataset='ARD_TILE', start=1, chunk=5e3, limit=5e4, **kwargs):
+    limit = limit or slimit(url, token, **kwargs)
+    chunk = min(map(int, [limit, chunk]))
+    msearch = make_search(token=token, dataset=dataset, **kwargs)
+    searches = [dict(msearch, startingNumber=i+1, maxResults=chunk)
+                for i in range(0, int(limit), int(chunk))]
+    return _results(_data(_api(url, 'search', searches)))
+
+
+def slimit(url, token, dataset='ARD_TILE', **kwargs):
+    searches = [make_search(token, dataset, limit=1, **kwargs)]
+    return _data(_api(url, 'search', searches))[0].get('totalHits')
