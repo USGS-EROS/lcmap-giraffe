@@ -1,8 +1,10 @@
 """ Command-line-interface entrypoint for Docker """
 
 import argparse
-import logging, time
+import logging, time, datetime
 from itertools import islice
+from functools import reduce
+from operator import add
 
 from . import available
 from . import ingested
@@ -10,6 +12,7 @@ from . import docstore
 from . import cfg
 from . import logger
 from . import funcs as f
+from . import landsat
 
 
 def parse_args(defaults=None):
@@ -25,21 +28,49 @@ def configure_log(level='INFO'):
     logging.basicConfig(level=level, format=fmt)
 
 
+def start_crawl(start=None, fmt='%Y-%m-%d'):
+    start = start or docstore.sorted(cfg.get('ard')['ES_HOST'], cfg.get('ard')['ES_INDEX'], 'acquisition_date')
+    return dict(temporal_start=start[:10])
+
+
 def run():
     while time.sleep(3) is None:
         try:
             config = cfg.get('m2m', lower=True)
-            start = config.get('temporal_start') or docstore.sorted(cfg.get('ard')['ES_HOST'], cfg.get('ard')['ES_INDEX'], 'acquisition_date')
-            config.update(temporal_start=start[:10])
-            docstore.index(host=cfg.get('ard')['ES_HOST'], index=cfg.get('ard')['ES_INDEX'], data=available.updates(**config))
-            # TODO: this should update any new as "missing" right away
+            config.update(start_crawl(config.get('temporal_start')))
+            new_acqs = available.updates(**config)
+            docstore.index(host=cfg.get('ard')['ES_HOST'], index=cfg.get('ard')['ES_INDEX'], data=new_acqs)
 
-            missing = map(f.unpack, docstore.missing(cfg.get('iwds')['ES_HOST'],
-                                     cfg.get('iwds')['ES_INDEX'], 'http_date')) # TODO: this should check the @timestamp > now() - 30mins
+            fixes = f.timestamp(map(lambda x: dict(landsat.info(x), _id=x), reduce(add, map(ingested.all_tifs, new_acqs[:1]))))
+            docstore.index(host=cfg.get('ard')['ES_HOST'], index=cfg.get('ard')['ES_INDEX'], data=fixes)
+
+            found = ingested.updates(host=cfg.get('iwds')['URL'],
+                                                  tiles=new_acqs)
             docstore.index(host=cfg.get('iwds')['ES_HOST'],
                             index=cfg.get('iwds')['ES_INDEX'],
-                            data=ingested.updates(host=cfg.get('iwds')['URL'],
-                                                  tiles=missing))
+                            data=found)
+
+            missing = list(map(f.unpack, docstore.missing(cfg.get('iwds')['ES_HOST'],
+                           cfg.get('iwds')['ES_INDEX'], 'http_date'))) # TODO: this should check the @timestamp > now() - 30mins
+            found = ingested.updates(host=cfg.get('iwds')['URL'],
+                                                  tiles=missing)
+            docstore.index(host=cfg.get('iwds')['ES_HOST'],
+                            index=cfg.get('iwds')['ES_INDEX'],
+                            data=found)
+
+            missing = list(map(f.unpack, docstore.missing(cfg.get('iwds')['ES_HOST'],
+                           cfg.get('iwds')['ES_INDEX'], 'http_date'))) # TODO: this should check the @timestamp > now() - 30mins
+            found = ingested.updates(host=cfg.get('iwds')['URL'],
+                                                  tiles=missing)
+            docstore.index(host=cfg.get('iwds')['ES_HOST'],
+                            index=cfg.get('iwds')['ES_INDEX'],
+                            data=found)
+
+            found_ids = [x['_id'] for x in found]
+            still_missing = f.timestamp(dict(x) for x in missing if x['_id'] not in found_ids)
+            docstore.index(host=cfg.get('iwds')['ES_HOST'],
+                            index=cfg.get('iwds')['ES_INDEX'],
+                            data=still_missing)
         except KeyboardInterrupt:
             exit(1)
         except BaseException as e:
