@@ -27,14 +27,19 @@ def configure_log(level='INFO'):
 def run():
     while time.sleep(3) is None:
         try:
-            data = available.updates(**cfg.get('m2m', lower=True))
-            for d in data:
-                docstore.index(host=cfg.get('ard')['ES_HOST'], index=cfg.get('ard')['ES_INDEX'], data=d)
+            config = cfg.get('m2m', lower=True)
+            start = docstore.sorted(cfg.get('ard')['ES_HOST'], cfg.get('ard')['ES_INDEX'], 'acquisition_date')
+            config.update(temporal_start=start[:10])
+            docstore.index(host=cfg.get('ard')['ES_HOST'], index=cfg.get('ard')['ES_INDEX'], data=available.updates(**config))
 
-                docstore.index(host=cfg.get('iwds')['ES_HOST'],
-                                index=cfg.get('iwds')['ES_INDEX'],
-                                data=ingested.updates(host=cfg.get('iwds')['URL'],
-                                tiles=d))
+            missing = docstore.query(cfg.get('iwds')['ES_HOST'],
+                                     cfg.get('iwds')['ES_INDEX'],
+                                     size=1000,
+                                     query_string={"query": "NOT _exists_:http_date"})
+            docstore.index(host=cfg.get('iwds')['ES_HOST'],
+                            index=cfg.get('iwds')['ES_INDEX'],
+                            data=ingested.updates(host=cfg.get('iwds')['URL'],
+                            tiles=missing['hits']['hits']))
         except KeyboardInterrupt:
             exit(1)
         except BaseException as e:
