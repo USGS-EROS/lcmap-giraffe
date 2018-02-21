@@ -46,7 +46,7 @@ def run():
             new_acqs = available.updates(**config)
             docstore.index(host=cfg.get('ard')['ES_HOST'], index=cfg.get('ard')['ES_INDEX'], data=new_acqs)
 
-            fixes = f.timestamp(available.transform(map(location.add, map(lambda x: dict(landsat.info(x), _id=x), reduce(add, map(ingested.all_tifs, new_acqs))))))
+            fixes = f.timestamp(map(location.add, reduce(add, map(ingested.expand_tifs, new_acqs))))[-1]
             docstore.index(host=cfg.get('iwds')['ES_HOST'], index=cfg.get('iwds')['ES_INDEX'], data=fixes)
 
             found = ingested.updates(host=cfg.get('iwds')['URL'],
