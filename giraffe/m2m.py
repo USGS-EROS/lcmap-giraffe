@@ -14,7 +14,7 @@ def _api(url, endpoint, searches=None):
     mreq = partial(asynchttp.make_req, verb='POST',
                    url='{}/{}'.format(url, endpoint))
     searches = list(map(lambda s: mreq(data=s), map(fmt_body, searches)))
-    return asynchttp.request(searches)
+    return asynchttp.request(searches, plimit=5)
 
 
 def _data(series):
