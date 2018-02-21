@@ -33,5 +33,5 @@ def updates(host, tiles):
     return f.timestamp(
             map(location.add,
                 map(partial(f.parse_date, strptimes=strptimes),
-                map(subset, reduce(add, iwds.inventory(host, reduce(add,
-                    map(all_tifs, tiles))))))))
+                map(subset, iwds.inventory(host, reduce(add,
+                    map(all_tifs, tiles)))))))
