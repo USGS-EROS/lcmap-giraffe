@@ -56,26 +56,11 @@ def run():
                             data=found)
 
             missing = list(map(f.unpack, docstore.missing(cfg.get('iwds')['ES_HOST'],
-                           cfg.get('iwds')['ES_INDEX'], 'http_date'))) # TODO: this should check the @timestamp > now() - 30mins
-            found = ingested.updates(host=cfg.get('iwds')['URL'],
-                                                  tiles=missing)
+                           cfg.get('iwds')['ES_INDEX'], 'http_date')))
+            found = ingested.updates(host=cfg.get('iwds')['URL'], tiles=missing)
             docstore.index(host=cfg.get('iwds')['ES_HOST'],
                             index=cfg.get('iwds')['ES_INDEX'],
                             data=found)
-
-            missing = list(map(f.unpack, docstore.missing(cfg.get('iwds')['ES_HOST'],
-                           cfg.get('iwds')['ES_INDEX'], 'http_date'))) # TODO: this should check the @timestamp > now() - 30mins
-            found = ingested.updates(host=cfg.get('iwds')['URL'],
-                                                  tiles=missing)
-            docstore.index(host=cfg.get('iwds')['ES_HOST'],
-                            index=cfg.get('iwds')['ES_INDEX'],
-                            data=found)
-
-            found_ids = [x['_id'] for x in found]
-            still_missing = f.timestamp(dict(x) for x in missing if x['_id'] not in found_ids)
-            docstore.index(host=cfg.get('iwds')['ES_HOST'],
-                            index=cfg.get('iwds')['ES_INDEX'],
-                            data=still_missing)
         except KeyboardInterrupt:
             exit(1)
         except BaseException as e:
