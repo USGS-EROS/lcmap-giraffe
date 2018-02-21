@@ -26,12 +26,20 @@ def subset(response):
                 **landsat.info(response['source']))
 
 
-def updates(host, tiles):
+def expand_tifs(item, tifs=TIFFS):
+    return [dict(item, _id=s, layer=s[s.rindex('_'):])
+            for s in all_tifs(item, tifs)]
+
+
+def parse(responses):
     strptimes = {'date_acquired': '%Y%m%d',
                  'date_modified': '%Y%m%d',
                  'http_date': '%a, %d %b %Y %H:%M:%S GMT'}
-    return f.timestamp(
-            map(location.add,
-                map(partial(f.parse_date, strptimes=strptimes),
-                map(subset, iwds.inventory(host, reduce(add,
-                    map(all_tifs, tiles)))))))
+    return map(location.add,
+               map(partial(f.parse_date, strptimes=strptimes),
+                   map(subset, responses)))
+
+
+def updates(host, tiles):
+    return f.timestamp(parse(iwds.inventory(host, reduce(add,
+                    map(all_tifs, tiles)))))
