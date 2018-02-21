@@ -9,7 +9,7 @@ interactions:
       Content-Type: [application/x-www-form-urlencoded]
       User-Agent: [python-requests/2.18.4]
     method: POST
-    uri: https://earthexplorer.usgs.gov/inventory/json/v/1.4.1/login
+    uri: http://localhost:8080/inventory/json/v/1.4.1/login
   response:
     body: {string: '{"errorCode":null,"error":"","data":"7023bb0bc400470a8fc9c16bce427199","api_version":"1.4.1","access_level":"approved","user_context":"guest","user_auth":"guest","catalog_id":"default","executionTime":0.47794103622437}'}
     headers:
@@ -37,7 +37,7 @@ interactions:
       Content-Type: [application/x-www-form-urlencoded]
       User-Agent: [python-requests/2.18.4]
     method: POST
-    uri: https://earthexplorer.usgs.gov/inventory/json/v/1.4.1/search
+    uri: http://localhost:8080/inventory/json/v/1.4.1/search
   response:
     body: {string: '{"errorCode":null,"error":"","data":{"numberReturned":1,"totalHits":1411045,"firstRecord":1,"lastRecord":1,"nextRecord":2,"results":[{"acquisitionDate":"1982-11-11","startTime":"1982-11-11","endTime":"1982-11-11","spatialFootprint":{"type":"Polygon","coordinates":[[[-75.2445098115,44.155845132],[-72.9560718946,44.155845132],[-72.9560718946,45.7758842776],[-75.2445098115,45.7758842776],[-75.2445098115,44.155845132]]]},"sceneBounds":"-75.2445098115,44.155845132,-72.9560718946,45.7758842776","browseUrl":"https:\/\/earthexplorer.usgs.gov\/browse\/tm\/ARD_Tile\/1982\/CU\/028\/004\/LT04_CU_028004_19821111_C01_V01.jpg","dataAccessUrl":"https:\/\/earthexplorer.usgs.gov\/order\/process?dataset_name=ARD_TILE&ordered=LT04_CU_028004_19821111_C01_V01&node=INVSVC","downloadUrl":"https:\/\/earthexplorer.usgs.gov\/download\/external\/options\/ARD_TILE\/LT04_CU_028004_19821111_C01_V01\/INVSVC\/","entityId":"LT04_CU_028004_19821111_C01_V01","displayId":"LT04_CU_028004_19821111_20170912_C01_V01","metadataUrl":"https:\/\/earthexplorer.usgs.gov\/metadata\/xml\/14320\/LT04_CU_028004_19821111_C01_V01\/","fgdcMetadataUrl":"https:\/\/earthexplorer.usgs.gov\/fgdc\/14320\/LT04_CU_028004_19821111_C01_V01\/save_xml","modifiedDate":"2017-09-12T15:14:35","orderUrl":"https:\/\/earthexplorer.usgs.gov\/order\/process?dataset_name=ARD_TILE&ordered=LT04_CU_028004_19821111_C01_V01&node=INVSVC","bulkOrdered":false,"ordered":false,"summary":"Entity
         ID: LT04_CU_028004_19821111_20170912_C01_V01, Acquisition Date: 11-NOV-82"}]},"api_version":"1.4.1","access_level":"approved","user_context":"guest","user_auth":"guest","catalog_id":"EE","executionTime":9.4572479724884}'}
