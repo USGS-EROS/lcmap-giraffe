@@ -317,6 +317,18 @@
               "type": "terms"
             },
             {
+              "fake": true,
+              "field": "@timestamp",
+              "id": "5",
+              "settings": {
+                "min_doc_count": 1,
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
+            },
+            {
               "field": "_id",
               "id": "2",
               "settings": {
@@ -335,7 +347,7 @@
               "type": "count"
             }
           ],
-          "query": "tileid:$TileID",
+          "query": "tileid:$TileID AND -_exists_:http_date",
           "refId": "A",
           "timeField": "@timestamp"
         }
@@ -346,7 +358,6 @@
       "type": "table"
     }
   ],
-  "refresh": "5s",
   "schemaVersion": 16,
   "style": "dark",
   "tags": [
@@ -357,7 +368,6 @@
       {
         "allValue": null,
         "current": {
-          "tags": [],
           "text": "All",
           "value": [
             "$__all"
@@ -369,20 +379,9 @@
         "label": null,
         "multi": true,
         "name": "TileID",
-        "options": [
-          {
-            "selected": true,
-            "text": "All",
-            "value": "$__all"
-          },
-          {
-            "selected": false,
-            "text": "003012",
-            "value": "003012"
-          }
-        ],
+        "options": [],
         "query": "{\"find\": \"terms\", \"field\": \"tileid.keyword\"}",
-        "refresh": 0,
+        "refresh": 1,
         "regex": "",
         "sort": 0,
         "tagValuesQuery": "",
@@ -394,7 +393,7 @@
     ]
   },
   "time": {
-    "from": "now-6M",
+    "from": "now-90d",
     "to": "now"
   },
   "timepicker": {
