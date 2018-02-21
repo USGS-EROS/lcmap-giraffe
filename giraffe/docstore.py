@@ -45,7 +45,7 @@ def sorted(host, index, field, order='desc'):
                          )['hits']['hits'][-1]['_source'][field]
 
 
-def missing(host, index, field, size=1000):
+def missing(host, index, field, size=10000):
     body = dict(size=size, query=dict(query_string={"query":
                 "NOT _exists_:{}".format(field)}),
                 sort=[{'@timestamp': dict(order='asc')}])
