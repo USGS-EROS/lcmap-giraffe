@@ -30,7 +30,11 @@ def configure_log(level='INFO'):
 
 
 def start_crawl(start=None, fmt='%Y-%m-%d', offset=-1):
-    start = start or docstore.sorted(cfg.get('ard')['ES_HOST'], cfg.get('ard')['ES_INDEX'], 'acquisition_date')[:10]
+    if not start:
+        try:
+            start = docstore.sorted(cfg.get('ard')['ES_HOST'], cfg.get('ard')['ES_INDEX'], 'acquisition_date')[:10]
+        except:
+            start = '1900-01-01'
     return dict(temporal_start=(datetime.datetime.strptime(start, fmt) + datetime.timedelta(offset)).strftime(fmt))
 
 
