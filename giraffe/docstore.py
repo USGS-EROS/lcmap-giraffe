@@ -43,3 +43,10 @@ def sorted(host, index, field, order='desc'):
                 sort=[{field: dict(order=order)}])
     return Elasticsearch(host=host).search(index=index, body=body
                          )['hits']['hits'][-1]['_source'][field]
+
+
+def missing(host, index, field, size=1000):
+    body = dict(size=size, query=dict(query_string={"query":
+                "NOT _exists_:{}".format(field)}),
+                sort=[{'@timestamp': dict(order='asc')}])
+    return Elasticsearch(host=host).search(index=index, body=body)['hits']['hits']
