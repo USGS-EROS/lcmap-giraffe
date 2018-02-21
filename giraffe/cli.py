@@ -24,7 +24,7 @@ def parse_args(defaults=None):
     return defaults
 
 
-def configure_log(level='INFO'):
+def configure_log(level='WARNING'):
     fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     logging.basicConfig(level=level, format=fmt)
 
@@ -32,9 +32,11 @@ def configure_log(level='INFO'):
 def start_crawl(start=None, fmt='%Y-%m-%d', offset=-1):
     if not start:
         try:
-            start = docstore.sorted(cfg.get('ard')['ES_HOST'], cfg.get('ard')['ES_INDEX'], 'acquisition_date')[:10]
-        except:
+            start = docstore.sorted(cfg.get('ard')['ES_HOST'], cfg.get('ard')['ES_INDEX'], 'date_acquired')[:10]
+        except Exception as e:
+            logger.error(e)
             start = '1900-01-01'
+    logger.warning('*** Start crawl: {}'.format(start))
     return dict(temporal_start=(datetime.datetime.strptime(start, fmt) + datetime.timedelta(offset)).strftime(fmt))
 
 
@@ -44,23 +46,35 @@ def run():
             config = cfg.get('m2m', lower=True)
             config.update(start_crawl(config.get('temporal_start')))
             new_acqs = available.updates(**config)
+            logger.warning('**** {} new acqs'.format(len(new_acqs)))
             docstore.index(host=cfg.get('ard')['ES_HOST'], index=cfg.get('ard')['ES_INDEX'], data=new_acqs)
 
             fixes = f.timestamp(map(location.add, reduce(add, map(ingested.expand_tifs, new_acqs))))
+            logger.warning('**** {} new tifs'.format(len(fixes)))
             docstore.index(host=cfg.get('iwds')['ES_HOST'], index=cfg.get('iwds')['ES_INDEX'], data=fixes)
 
             found = ingested.updates(host=cfg.get('iwds')['URL'],
                                                   tiles=new_acqs)
+            logger.warning('**** {} ingested tifs'.format(len(found)))
             docstore.index(host=cfg.get('iwds')['ES_HOST'],
                             index=cfg.get('iwds')['ES_INDEX'],
                             data=found)
 
             missing = list(map(f.unpack, docstore.missing(cfg.get('iwds')['ES_HOST'],
                            cfg.get('iwds')['ES_INDEX'], 'http_date')))
+            logger.warning('**** {} previously missing tifs'.format(len(missing)))
             found = ingested.updates(host=cfg.get('iwds')['URL'], tiles=missing)
+            logger.warning('**** {} ingested tifs'.format(len(found)))
             docstore.index(host=cfg.get('iwds')['ES_HOST'],
                             index=cfg.get('iwds')['ES_INDEX'],
                             data=found)
+
+            found_ids = [x['_id'] for x in found]
+            still_missing = f.timestamp(dict(x) for x in missing if x['_id'] not in found_ids)
+            docstore.index(host=cfg.get('iwds')['ES_HOST'],
+                           index=cfg.get('iwds')['ES_INDEX'],
+                           data=still_missing)
+            logger.warning('**** {} still missing tifs'.format(len(still_missing)))
         except KeyboardInterrupt:
             exit(1)
         except BaseException as e:
