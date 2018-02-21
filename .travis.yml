@@ -2,6 +2,17 @@ language: python
 python:
 - '3.5'
 - '3.6'
+env:
+  global:
+  - COMMIT=${TRAVIS_COMMIT::8}
+  - GIRAFFE_M2M_USERNAME="guest"
+  - GIRAFFE_M2M_PASSWORD="admin1234"
+  - GIRAFFE_M2M_URL="https://localhost:8080/inventory/json/v/1.4.1"
+  - GIRAFFE_ARD_ES_HOST="localhost"
+  - GIRAFFE_ARD_ES_INDEX="ard-tiles"
+  - GIRAFFE_IWDS_URL="http://localhost:5656"
+  - GIRAFFE_IWDS_ES_HOST="localhost"
+  - GIRAFFE_IWDS_ES_INDEX="iwds-tifs"
 install:
 - pip install --upgrade pip
 - pip install .[test]
