@@ -9,6 +9,7 @@ from . import ingested
 from . import docstore
 from . import cfg
 from . import logger
+from . import funcs as f
 
 
 def parse_args(defaults=None):
@@ -28,18 +29,17 @@ def run():
     while time.sleep(3) is None:
         try:
             config = cfg.get('m2m', lower=True)
-            start = docstore.sorted(cfg.get('ard')['ES_HOST'], cfg.get('ard')['ES_INDEX'], 'acquisition_date')
+            start = config.get('temporal_start') or docstore.sorted(cfg.get('ard')['ES_HOST'], cfg.get('ard')['ES_INDEX'], 'acquisition_date')
             config.update(temporal_start=start[:10])
             docstore.index(host=cfg.get('ard')['ES_HOST'], index=cfg.get('ard')['ES_INDEX'], data=available.updates(**config))
+            # TODO: this should update any new as "missing" right away
 
-            missing = docstore.query(cfg.get('iwds')['ES_HOST'],
-                                     cfg.get('iwds')['ES_INDEX'],
-                                     size=1000,
-                                     query_string={"query": "NOT _exists_:http_date"})
+            missing = map(f.unpack, docstore.missing(cfg.get('iwds')['ES_HOST'],
+                                     cfg.get('iwds')['ES_INDEX'], 'http_date')) # TODO: this should check the @timestamp > now() - 30mins
             docstore.index(host=cfg.get('iwds')['ES_HOST'],
                             index=cfg.get('iwds')['ES_INDEX'],
                             data=ingested.updates(host=cfg.get('iwds')['URL'],
-                            tiles=missing['hits']['hits']))
+                                                  tiles=missing))
         except KeyboardInterrupt:
             exit(1)
         except BaseException as e:
