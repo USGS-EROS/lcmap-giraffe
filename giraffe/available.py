@@ -11,10 +11,9 @@ def metadata(series):
 
 
 def transform(search_result):
-    keep_keys = {'acquisitionDate': 'acquisition_date', 'displayId': '_id',
-                 'entityId':'entity_id', 'modifiedDate': 'modified_date'}
-    strptimes = {'acquisition_date': '%Y-%m-%d',
-                 'modified_date': '%Y-%m-%dT%H:%M:%S'}
+    keep_keys = {'displayId': '_id'}
+    strptimes = {'date_acquired': '%Y%m%d',
+                 'date_modified': '%Y%m%d'}
     return map(partial(f.parse_date, strptimes=strptimes),
                        metadata(map(lambda x: f.clean(keep_keys, x),
                                     search_result)))

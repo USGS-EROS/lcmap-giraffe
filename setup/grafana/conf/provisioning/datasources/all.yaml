@@ -15,7 +15,7 @@ datasources:
   with_credentials:
   is_default: false
   json_data:
-     timeField: modified_date
+     timeField: date_modified
      esVersion: 56
   version: 1
   editable: false
@@ -33,7 +33,7 @@ datasources:
   with_credentials:
   is_default: false
   json_data:
-     timeField: acquisition_date
+     timeField: date_acquired
      esVersion: 56
   version: 1
   editable: false
