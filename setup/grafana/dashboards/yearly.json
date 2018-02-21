@@ -332,7 +332,7 @@
       ]
     },
     {
-      "circleMaxSize": "30",
+      "circleMaxSize": "2",
       "circleMinSize": "2",
       "colors": [
         "rgba(245, 54, 54, 0.9)",
@@ -387,7 +387,7 @@
           "timeField": "http_date"
         }
       ],
-      "thresholds": "0,10",
+      "thresholds": "8,8000",
       "title": "TIFs Ingested",
       "type": "grafana-worldmap-panel",
       "unitPlural": "",
@@ -395,14 +395,14 @@
       "valueName": "total"
     },
     {
-      "circleMaxSize": 30,
+      "circleMaxSize": "2",
       "circleMinSize": 2,
       "colors": [
         "rgba(50, 172, 45, 0.97)",
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "TIFS_BY_TSTAMP",
+      "datasource": "TIFS_BY_ACQ",
       "decimals": 0,
       "esGeoPoint": "@location",
       "esLocationName": "@location",
@@ -447,7 +447,7 @@
           ],
           "query": "tileid:$TileID and -_exists_:http_date",
           "refId": "A",
-          "timeField": "@timestamp"
+          "timeField": "date_acquired"
         }
       ],
       "thresholds": "0,10",
