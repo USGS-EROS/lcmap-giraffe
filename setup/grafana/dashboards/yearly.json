@@ -181,7 +181,7 @@
               "type": "count"
             }
           ],
-          "query": "tileid:$TileID",
+          "query": "tileid:$TileID AND _exists_:http_date",
           "refId": "A",
           "timeField": "date_acquired"
         }
@@ -342,7 +342,7 @@
       "datasource": "TIFS_BY_HTTP",
       "decimals": 0,
       "esGeoPoint": "@location",
-      "esLocationName": "@location",
+      "esLocationName": "tileid.keyword",
       "esMetric": "Count",
       "gridPos": {
         "h": 9,
@@ -365,6 +365,18 @@
       "targets": [
         {
           "bucketAggs": [
+            {
+              "fake": true,
+              "field": "tileid.keyword",
+              "id": "4",
+              "settings": {
+                "min_doc_count": 1,
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "0"
+              },
+              "type": "terms"
+            },
             {
               "fake": true,
               "field": "@location",
@@ -405,7 +417,7 @@
       "datasource": "TIFS_BY_ACQ",
       "decimals": 0,
       "esGeoPoint": "@location",
-      "esLocationName": "@location",
+      "esLocationName": "tileid.keyword",
       "esMetric": "Count",
       "gridPos": {
         "h": 9,
@@ -428,6 +440,18 @@
       "targets": [
         {
           "bucketAggs": [
+            {
+              "fake": true,
+              "field": "tileid.keyword",
+              "id": "4",
+              "settings": {
+                "min_doc_count": 1,
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "0"
+              },
+              "type": "terms"
+            },
             {
               "fake": true,
               "field": "@location",
