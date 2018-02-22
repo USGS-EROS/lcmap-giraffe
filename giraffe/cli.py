@@ -62,6 +62,9 @@ def run():
                 docstore.index(host=cfg.get('iwds')['ES_HOST'],
                                 index=cfg.get('iwds')['ES_INDEX'],
                                 data=found)
+            else:
+                logger.warning('*** Pause search for new acqusitions')
+                time.sleep(5 * 60)
 
             missing = list(map(f.unpack, docstore.missing(cfg.get('iwds')['ES_HOST'],
                            cfg.get('iwds')['ES_INDEX'], 'http_date')))
