@@ -382,7 +382,7 @@
               "field": "@location",
               "id": "3",
               "settings": {
-                "precision": 3
+                "precision": 7
               },
               "type": "geohash_grid"
             }
@@ -457,7 +457,7 @@
               "field": "@location",
               "id": "3",
               "settings": {
-                "precision": 3
+                "precision": 7
               },
               "type": "geohash_grid"
             }
