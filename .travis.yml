@@ -20,6 +20,19 @@ install:
 script: pytest --cov=./
 after_success:
   - codecov
+deploy:
+  - provider: script
+    script: make all
+    on:
+      repo: USGS-EROS/lcmap-giraffe
+      branch: master
+      tags: false
+  - provider: script
+    script: make all
+    on:
+      repo: USGS-EROS/lcmap-giraffe
+      branch: develop
+      tags: false
 notifications:
   slack:
     rooms:

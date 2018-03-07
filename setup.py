@@ -1,6 +1,8 @@
 from setuptools import find_packages
 from setuptools import setup
 
+from giraffe import __version__
+
 
 def readme():
     with open('README.md') as f:
@@ -8,7 +10,7 @@ def readme():
 
 
 setup(name='lcmap-giraffe',
-      version='0.1.0',
+      version=__version__,
       description='Python to ElasticSearch monitor for LCMAP tile ingest status',
       long_description=readme(),
       classifiers=[

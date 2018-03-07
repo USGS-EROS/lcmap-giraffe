@@ -40,6 +40,9 @@ def parse(responses):
                    map(subset, responses)))
 
 
+def refresh(host, tif_list):
+    return f.timestamp(parse(iwds.inventory(host, tif_list)))
+
+
 def updates(host, tiles):
-    return f.timestamp(parse(iwds.inventory(host, reduce(add,
-                    map(all_tifs, tiles)))))
+    return refresh(host, reduce(add, map(all_tifs, tiles)))

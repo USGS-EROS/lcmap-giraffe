@@ -66,10 +66,10 @@ def run():
                 logger.warning('*** Pause search for new acqusitions')
                 time.sleep(5 * 60)
 
-            missing = list(map(f.unpack, docstore.missing(cfg.get('iwds')['ES_HOST'],
-                           cfg.get('iwds')['ES_INDEX'], 'http_date')))
+            missing = [x['_id'] for x in map(f.unpack, docstore.missing(cfg.get('iwds')['ES_HOST'],
+                           cfg.get('iwds')['ES_INDEX'], 'http_date'))]
             logger.warning('**** {} previously missing tifs'.format(len(missing)))
-            found = ingested.updates(host=cfg.get('iwds')['URL'], tiles=missing)
+            found = ingested.refresh(host=cfg.get('iwds')['URL'], tif_list=missing)
             logger.warning('**** {} ingested tifs'.format(len(found)))
             docstore.index(host=cfg.get('iwds')['ES_HOST'],
                             index=cfg.get('iwds')['ES_INDEX'],
