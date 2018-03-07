@@ -10,7 +10,7 @@ from elasticsearch.helpers import bulk, streaming_bulk
 def make_index(client, index='my-index-name', settings=None):
     settings = settings or {'mappings': {'doc': {'properties': {
                     '@location': {'type': 'geo_point'},
-                    '@timetamp': {'type': 'date'},
+                    '@timestamp': {'type': 'date'},
                     'date_acquired': {'type': 'date'},
                     'date_modified': {'type': 'date'},
                     'http_date': {'type': 'date'},
