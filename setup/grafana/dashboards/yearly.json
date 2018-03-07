@@ -678,6 +678,6 @@
       "30d"
     ]
   },
-  "timezone": "",
+  "timezone": "utc",
   "title": "TIFs Ingested"
 }
